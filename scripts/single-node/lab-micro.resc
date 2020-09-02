@@ -1,0 +1,19 @@
+:name: lab-micro
+:description: Virtualizacion de los laboratorios de micro
+
+$name?="ciaa"
+
+using sysbus
+mach create $name
+machine LoadPlatformDescription @platforms/boards/edu-ciaa-nxp.repl
+
+$bin?=@../facultad/ecc.entorno/binarios/proyecto.elf
+
+macro reset
+"""
+    sysbus LoadELF $bin
+    cpu VectorTableOffset `sysbus GetSymbolAddress "vectors"`
+"""
+runMacro $reset
+machine StartGdbServer 3333 true
+
