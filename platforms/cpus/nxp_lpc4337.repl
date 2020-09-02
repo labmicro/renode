@@ -1,0 +1,32 @@
+flash_a: Memory.MappedMemory @ sysbus 0x1A000000
+    size: 0x80000
+
+flash_b: Memory.MappedMemory @ sysbus 0x1B000000
+    size: 0x80000
+
+ram_loc_32: Memory.MappedMemory @ sysbus 0x10000000
+    size: 0x8000
+
+ram_loc_40: Memory.MappedMemory @ sysbus 0x10080000
+    size: 0xA000
+
+ram_ahb_32: Memory.MappedMemory @ sysbus 0x20000000
+    size: 0x8000
+
+ram_ahb_16: Memory.MappedMemory @ sysbus 0x20008000
+    size: 0x4000
+
+ram_etb_16: Memory.MappedMemory @ sysbus 0x2000C000
+    size: 0x4000
+
+nvic: IRQControllers.NVIC @ sysbus 0xE000E000
+    systickFrequency: 120000000
+    IRQ -> cpu@0
+
+cpu: CPU.CortexM @ sysbus
+    cpuType: "cortex-m4f"
+    nvic: nvic
+
+sysbus:
+    init:
+        ApplySVD @platforms/cpus/lpc43xx.svd
